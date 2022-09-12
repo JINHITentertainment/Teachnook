@@ -1,2 +1,12 @@
 import file
 file.pri("Vini")
+
+import math
+import random as x
+import datetime as y
+print(math.pi)
+print(math.sin(1))
+print(x.random())
+print(y.datetime.now())
+details=y.datetime.now()
+print(details.month)
