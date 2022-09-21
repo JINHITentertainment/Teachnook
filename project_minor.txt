@@ -1,0 +1,113 @@
+def pause():
+    global paused
+
+    paused = not paused
+
+def tick():
+    global seconds, ticking
+
+    if not paused:
+        turtle.clear()
+
+        if seconds < 0:
+            turtle.write("TIMER DONE", align='center', font=FONT)
+            ticking = False
+            return
+        else:
+            turtle.write(delSec(str(seconds//3600))+":"+delSec(str((seconds%3600)//60))+":"+delSec(str((seconds%60)//1)), align='center', font=FONT)
+            seconds -= 1
+
+    screen.ontimer(tick, 1000)
+
+from turtle import Screen, Turtle, bgcolor
+
+# --- functions ---
+
+def delSec(string):
+    if len(string) == 1:
+        return "0" + string
+    else:
+        return string
+
+def tick():
+    global seconds, ticking
+
+    if not paused:
+        turtle.clear()
+
+        if seconds < 0:
+            turtle.write("TIMER DONE", align='center', font=FONT)
+            ticking = False
+            return
+        else:
+            turtle.write(delSec(str(seconds//3600))+":"+delSec(str((seconds%3600)//60))+":"+delSec(str((seconds%60)//1)), align='center', font=FONT)
+            seconds -= 1
+
+    screen.ontimer(tick, 1000)
+
+def reset():
+    global seconds, ticking, key
+    #global paused
+
+    screen.onkey(None, key)  # Disable event handler inside handler
+    screen.onkey(None, key_pause)  # Disable event handler inside handler
+
+    seconds = sum(time)
+
+    if not ticking:
+        ticking = True
+        tick()
+
+    #paused = False
+
+    screen.onkey(reset, key)  # Reenable event handler
+    screen.onkey(pause, key_pause)  # Reenable event handler
+
+def pause():
+    global paused
+
+    paused = not paused
+
+# --- main ---
+
+bgcolor('dodgerblue')
+FONT = ("Arial", 60, "normal")
+
+strings = input("Please enter the time: ").strip().split(' ')
+
+
+time = [60 ** (len(strings) - index - 1) * int(unit) for index, unit in enumerate(strings)]
+
+seconds = -1
+ticking = False
+paused = False
+key = "space"
+key_pause = "Return"
+
+screen = Screen()
+
+turtle = Turtle()
+turtle.hideturtle()
+turtle.color('white')
+
+reset()
+
+screen.listen()
+screen.mainloop()
+
+def tick():
+    global seconds, ticking
+
+
+    turtle.clear()
+
+    if seconds < 0:
+        turtle.write("TIMER DONE", align='center', font=FONT)
+        ticking = False
+        return
+    else:
+        turtle.write(delSec(str(seconds//3600))+":"+delSec(str((seconds%3600)//60))+":"+delSec(str((seconds%60)//1)), align='center', font=FONT)
+        if not paused:
+              seconds -= 1
+
+    screen.ontimer(tick, 1000)
